@@ -1,4 +1,5 @@
-﻿using Lab.Entities;
+﻿using System;
+using Lab.Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -91,7 +92,7 @@ namespace CSharpAdvanceDesignTests
 
         public int GetHashCode(Employee obj)
         {
-            throw new System.NotImplementedException();
+            return Tuple.Create(obj.FirstName, obj.LastName).GetHashCode();
         }
     }
 }

@@ -8,7 +8,6 @@ using Lab.Entities;
 namespace CSharpAdvanceDesignTests
 {
     [TestFixture()]
-    [Ignore("not yet")]
     public class JoeyDistinctTests
     {
         [Test]
@@ -45,10 +44,10 @@ namespace CSharpAdvanceDesignTests
             expected.ToExpectedObject().ShouldMatch(actual);
         }
 
-        private IEnumerable<TEmployee> JoeyDistinctWithEqualityComparer<TEmployee>(IEnumerable<TEmployee> employees, IEqualityComparer<TEmployee> comparer)
+        private IEnumerable<TSource> JoeyDistinctWithEqualityComparer<TSource>(IEnumerable<TSource> employees, IEqualityComparer<TSource> comparer)
         {
             var numbersEnumerator = employees.GetEnumerator();
-            HashSet<TEmployee> newNumbers = new HashSet<TEmployee>(comparer);
+            HashSet<TSource> newNumbers = new HashSet<TSource>(comparer);
             while (numbersEnumerator.MoveNext())
             {
                 var current = numbersEnumerator.Current;
@@ -59,21 +58,9 @@ namespace CSharpAdvanceDesignTests
             }
         }
 
-
         private IEnumerable<int> JoeyDistinct(IEnumerable<int> numbers)
         {
-            var numbersEnumerator = numbers.GetEnumerator();
-            HashSet<int> newNumbers = new HashSet<int>();
-            while (numbersEnumerator.MoveNext())
-            {
-                var current = numbersEnumerator.Current;
-                if (newNumbers.Add(current))
-                {
-                    yield return current;
-                }
-
-                //return new HashSet<int>(numbers);
-            }
+            return JoeyDistinctWithEqualityComparer(numbers, EqualityComparer<int>.Default);
         }
     }
 }
